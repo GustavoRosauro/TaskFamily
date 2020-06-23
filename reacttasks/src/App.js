@@ -21,10 +21,11 @@ const App = () => {
   }  
   const notification = ()=>{    
     if(Notification.permission === 'granted'){
-      navigator.serviceWorker.ready.then('Novo Item Adicionado',{
-        body:'Adicionado nova marcação'
+      navigator.serviceWorker.ready.then((serviceWorker)=>{
+        serviceWorker.showNotification('Novo Item',{
+          body:'foi adicionado novo item'
+        });
       })
-    }
   }
   const handleShow = () => setShow(true);
 
