@@ -19,18 +19,17 @@ const App = () => {
     setShow(false)
     await carregar();
   }  
-  navigator.serviceWorker.register('sw.js');
   const notification = ()=>{    
-    if(Notification.permission === 'granted'){
-      navigator.serviceWorker.ready.then((reg)=>{
-        reg.showNotification('Novo Item',{
-          body:'Novo Item foi Adicionado'
-        })
+    if(Notification.permission === 'granted'){      
+      const notification = new Notification('Novo Item Adicionado',{
+        body:'Adicionado nova marcação'
       })
-      // const notification = new Notification('Novo Item Adicionado',{
-      //   body:'Adicionado nova marcação'
-      // })
+      notification.onclick = (e) => {
+        e.preventDefault();
+        window.focus();
+        notification.close();
     }
+  }
   }
   const handleShow = () => setShow(true);
 
