@@ -3,6 +3,7 @@ import {Modal,Button} from 'react-bootstrap'
 import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
+import { request } from 'http';
 const App = () => {
   const [lista,setLista] = useState([]);
   const [listaFilter,setListaFilter] = useState([]);
@@ -17,6 +18,13 @@ const App = () => {
   const handleClose = async() => {
     setShow(false)
     await carregar();
+  }  
+  const notification = ()=>{    
+    if(Notification.permission === 'granted'){
+      const notification = new Notification('Novo Item Adicionado',{
+        body:'Adicionado nova marcação'
+      })
+    }
   }
   const handleShow = () => setShow(true);
 
@@ -29,7 +37,11 @@ const App = () => {
     setEditShow(true)
   };
   useEffect(async()=>{
+    if(Notification.permission !== 'granted'){
+      await Notification.requestPermission();
+    }
     await carregar();
+    
   },[])
   const carregar = async()=>{
     let data = await axios.get('/tasks');
@@ -40,6 +52,7 @@ const App = () => {
   const salvar = async()=>{
     await axios.post('/tasks',item).then(async()=>{
       handleClose();
+      await notification();
     });   
   }
   const deletar = async (id)=>{
@@ -69,8 +82,8 @@ const App = () => {
  }
  const editItem = async()=>{
     let data  = await axios.put(`/tasksItem/${itemEdit.id}`,itemEdit);
-    await handleCloseEdit();
-
+    await handleCloseEdit();   
+    await notification();
  }
   let item = {
     titulo:'',
