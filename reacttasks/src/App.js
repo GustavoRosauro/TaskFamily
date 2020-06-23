@@ -19,13 +19,18 @@ const App = () => {
     setShow(false)
     await carregar();
   }  
+  navigator.serviceWorker.register('sw.js');
   const notification = ()=>{    
     if(Notification.permission === 'granted'){
-      navigator.serviceWorker.ready.then((serviceWorker)=>{
-        serviceWorker.showNotification('Novo Item',{
-          body:'foi adicionado novo item'
-        });
+      navigator.serviceWorker.ready.then((reg)=>{
+        reg.showNotification('Novo Item',{
+          body:'Novo Item foi Adicionado'
+        })
       })
+      // const notification = new Notification('Novo Item Adicionado',{
+      //   body:'Adicionado nova marcação'
+      // })
+    }
   }
   const handleShow = () => setShow(true);
 
