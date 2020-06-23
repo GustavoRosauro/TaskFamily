@@ -21,7 +21,7 @@ const App = () => {
   }  
   const notification = ()=>{    
     if(Notification.permission === 'granted'){
-      const notification = new Notification('Novo Item Adicionado',{
+      navigator.serviceWorker.ready.then('Novo Item Adicionado',{
         body:'Adicionado nova marcação'
       })
     }
